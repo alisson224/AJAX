@@ -1,20 +1,28 @@
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="vieport" content="width=device-wisth, initial-scale=1.0" />
-        <title>Consulta de Usuário GitHub</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
     <body>
-        <div class="container">
-        <h1>Consultar Usuário do GitHub</h1>
-        <div class="form-group">
-        <input type="text" id="username" placeholder="Digite o nome do usuário..." />
-        <button onclick="buscarUsuario()">Buscar</button>
-        </div>
-        <div id="result"></div>
-        </div>
+        <input type="text" id="user">
+        <button onclick="carregarPerfilGithub()">consultar</button>
+        <div id="resultado"></div>
 
-        <script> src="script.js"</script>
+        <script>
+        async function carregarPerfilGithub(){
+            try{
+                const usuario = document.getElementById("user").value;
+                const resposta = await fetch("https://api.github.com/users/"+usuario)
+                const valor = await resposta.json();
+                    document.getElementById("resultado").innerHTML = `
+                        <p>${valor.login}</p>
+                        <a href="${valor.html_url}" target="_blank">Github</a>
+                        <img src="${valor.avatar_url}">
+                        `
+            }catch(error){
+                alert("Deu um erro")
+            }
+        }
+        </script>
+
     </body>
 </html>
